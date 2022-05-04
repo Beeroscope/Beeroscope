@@ -16,6 +16,17 @@ app.get('/api/associations/:word', (req, res) => {
     res.json(response.body || {});                        // Return data in JSON format.
   });
 });
+
+app.get('/api/associations/', (req, res) => {
+  const request = unirest("GET", "https://api.punkapi.com/v2/beers/random");
+  request.query({});
+  request.end(function (response) {
+    res.send(response.body || {});
+  });
+
+}
+);
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
