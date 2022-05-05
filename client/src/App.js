@@ -7,6 +7,7 @@ import TableComp from './Table';
 function App() {
   const [word, setWord] = React.useState('IPA');
   const [associations,  setAssociations] = React.useState(null);
+
   const getAssociations = async () => {
     const response = await fetch(`/api/associations/` + word);  // Proxy API call to server back-end.
     const data = await response.json();                         // Response should already be in json but convert it just in case.
@@ -14,6 +15,12 @@ function App() {
     await console.log(`Length is: ${data.length}`);
     await console.log(`-----SAMPLE ELEMENT-----\n${data[0]}`);  // Debug info, can be found in browser's console.
   };
+
+ const getRandom = async () => {
+   const response = await fetch('/api/associations/');
+   const data = await response.json();
+   await setAssociations(data);
+ }
     
   // Rendered HTML
   // Sets up a button that grabs whatever is in the search bar and calls the API caller with that data.
@@ -24,6 +31,7 @@ function App() {
       <h1>Beer Search!</h1>
       <input value={word} onChange={e => setWord(e.target.value)} />
       <button onClick={getAssociations}>Search</button>
+      <button onClick={getRandom}>Random!</button>
       {associations && (
         Object.keys(associations).length === 0
           ? <p>No results</p>
@@ -33,6 +41,7 @@ function App() {
       )}
     </div>
   );
+
 }
 
 export default App;
